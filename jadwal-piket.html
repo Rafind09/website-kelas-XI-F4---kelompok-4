@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme" content="tema-2"/>
+  <title>Jadwal Piket - XI F4 SMAN 103 Jakarta</title>
+  <style>
+    :root{--bg:#0d0d0d;--card:#151515;--ink:#f1f1f1;--muted:#b5b5b5;--line:#272727;--g1:#ffffff;--g2:#dcdcdc;--g3:#989898;--radius:18px;--container:1200px;--nav-h:85px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+    .progress-bar{position:fixed;top:var(--nav-h);left:0;height:4px;background:linear-gradient(90deg,#fff,#bbb);width:0;z-index:2999;transition:width .12s;box-shadow:0 0 12px rgba(255,255,255,.25)}
+    #particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+
+    /* NAV */
+    nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:3000;background:rgba(10,10,10,.95);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);box-shadow:0 10px 40px rgba(0,0,0,.7)}
+    .nav-content{max-width:var(--container);height:100%;margin:0 auto;padding:0 1.25rem;display:flex;align-items:center;gap:18px}
+    .logo img{height:56px;filter:drop-shadow(0 2px 8px rgba(255,255,255,.18))}
+    .nav-links{display:flex;align-items:center;gap:.6rem;flex:1;overflow-x:auto;scrollbar-width:none}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{position:relative;white-space:nowrap;text-decoration:none;color:#fff;font-weight:800;letter-spacing:.3px;font-size:.96rem;padding:.55rem 1.05rem;border-radius:28px}
+    .nav-links a::before{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:.2s}
+    .nav-links a:hover::before{opacity:1}
+    .nav-links a::after{content:'';position:absolute;left:14px;right:14px;bottom:-8px;height:2px;background:linear-gradient(90deg,#ffffff,#bfbfbf);transform:scaleX(0);transition:.22s;opacity:.6}
+    .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-links a.active::after{transform:scaleX(1);opacity:1}
+
+    /* HERO */
+    .hero{margin-top:var(--nav-h);min-height:420px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:url('images/background.jpg') center/cover;filter:brightness(.35);animation:slowZoom 26s ease-in-out infinite alternate}
+    @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}}
+    .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.6) 60%,var(--bg) 100%);z-index:1}
+    #hero3d{position:absolute;inset:0;z-index:2;opacity:.6;mix-blend-mode:screen;pointer-events:none}
+    .hero-content{position:relative;z-index:3;text-align:center;padding:3rem 1.25rem;animation:fadeUp .9s ease;max-width:900px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .hero h1{font-size:3.1rem;line-height:1.1;font-weight:900;letter-spacing:1.5px;margin-bottom:.6rem;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 4px 20px rgba(255,255,255,.22)}
+    .hero p{font-size:1.08rem;color:rgba(255,255,255,.9)}
+
+    /* CONTENT */
+    .container{max-width:var(--container);margin:3rem auto 4rem;padding:0 1.25rem;position:relative;z-index:10}
+
+    .day-selector{
+      display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.6rem;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:.8rem;backdrop-filter:blur(10px)
+    }
+    .day-btn{
+      padding:.7rem 1.2rem;border:2px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);
+      border-radius:12px;cursor:pointer;font-weight:800;font-size:.98rem;transition:.2s;color:#fff;letter-spacing:.2px
+    }
+    .day-btn:hover{transform:translateY(-2px)}
+    .day-btn.active{background:#fff;color:#000;border-color:#fff}
+
+    .roster-card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;
+      box-shadow:0 18px 48px rgba(0,0,0,.35)
+    }
+    .roster-header{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid rgba(255,255,255,.18);padding-bottom:1rem;margin-bottom:1.1rem}
+    .roster-header h2{font-size:1.6rem;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap}
+    .ghost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:10px;padding:.55rem .9rem;cursor:pointer;font-weight:800;transition:.2s}
+    .ghost:hover{background:#fff;color:#000}
+
+    .roster-day{display:none}
+    .roster-day.active{display:block;animation:fade .35s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    .roster-list{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem}
+    .roster-item{
+      display:flex;align-items:center;gap:.8rem;background:rgba(255,255,255,.06);border-left:4px solid #fff;border-radius:12px;padding:1rem;border:1px solid rgba(255,255,255,.12)
+    }
+    .badge{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#000;font-weight:900}
+    .name{font-weight:800;color:#fff;font-size:1rem}
+    .roster-footer{margin-top:.75rem;text-align:right;color:var(--muted);font-size:.95rem}
+
+    @media(max-width:768px){.roster-list{grid-template-columns:1fr}.hero h1{font-size:2rem}}
+  </style>
+</head>
+<body data-theme="tema-2">
+  <div class="progress-bar" id="progressBar"></div>
+  <canvas id="particles"></canvas>
+
+  <nav>
+    <div class="nav-content">
+      <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Logo SMAN 103"></a></div>
+      <div class="nav-links" role="navigation" aria-label="Menu utama">
+        <a href="index.html">Halaman Utama</a>
+        <a href="struktur.html">Struktur Kelas</a>
+        <a href="daftar-murid.html">Daftar Murid</a>
+        <a href="denah.html">Denah Kelas</a>
+        <a href="fasilitas.html">Fasilitas</a>
+        <a href="jadwal-mapel.html">Jadwal Mapel</a>
+        <a href="jadwal-piket.html" class="active" aria-current="page">Jadwal Piket</a>
+        <a href="pj-mapel.html">PJ Mapel</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-fade"></div>
+    <canvas id="hero3d"></canvas>
+    <div class="hero-content">
+      <h1>Jadwal Piket</h1>
+      <p>XI F4 SMAN 103 Jakarta</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="day-selector">
+      <button class="day-btn" data-day="senin">🧹 Senin</button>
+      <button class="day-btn" data-day="selasa">🧹 Selasa</button>
+      <button class="day-btn" data-day="rabu">🧹 Rabu</button>
+      <button class="day-btn" data-day="kamis">🧹 Kamis</button>
+      <button class="day-btn" data-day="jumat">🧹 Jumat</button>
+    </div>
+
+    <section class="roster-card">
+      <div class="roster-header">
+        <h2 id="dayTitle">Senin</h2>
+        <div class="actions">
+          <button class="ghost" id="copyBtn">📋 Salin</button>
+          <button class="ghost" id="printBtn">🖨️ Cetak</button>
+        </div>
+      </div>
+
+      <div id="daysWrapper">
+        <div class="roster-day active" id="senin" aria-live="polite">
+          <ul class="roster-list" id="list-senin"></ul>
+          <div class="roster-footer"><span id="count-senin"></span></div>
+        </div>
+        <div class="roster-day" id="selasa" aria-live="polite">
+          <ul class="roster-list" id="list-selasa"></ul>
+          <div class="roster-footer"><span id="count-selasa"></span></div>
+        </div>
+        <div class="roster-day" id="rabu" aria-live="polite">
+          <ul class="roster-list" id="list-rabu"></ul>
+          <div class="roster-footer"><span id="count-rabu"></span></div>
+        </div>
+        <div class="roster-day" id="kamis" aria-live="polite">
+          <ul class="roster-list" id="list-kamis"></ul>
+          <div class="roster-footer"><span id="count-kamis"></span></div>
+        </div>
+        <div class="roster-day" id="jumat" aria-live="polite">
+          <ul class="roster-list" id="list-jumat"></ul>
+          <div class="roster-footer"><span id="count-jumat"></span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Data piket
+    const piket = {
+      senin : ["Naufal","Rasya","Ghaffy","Assyfa","Daffa","Clara","Hansean","Nazri"],
+      selasa: ["Marcello","Fino","Syirin","Rafi","Felicia","Gadiel","Deandra"],
+      rabu  : ["Pasha","Aisha","Bona","Zahra","Raihan","Callusa","Tio"],
+      kamis : ["Zyva","Andra","Felix","Echa","Patria","Athar","Gerrard"],
+      jumat : ["Barry","Vladya","Rizky","Shafana","Kemal","Nebula","Angeline"]
+    };
+
+    function renderList(day){
+      const names = piket[day] || [];
+      const ul = document.getElementById(`list-${day}`);
+      const count = document.getElementById(`count-${day}`);
+      ul.innerHTML = names.map((n,i)=>`
+        <li class="roster-item">
+          <div class="badge">${i+1}</div>
+          <div class="name">${n}</div>
+        </li>
+      `).join('');
+      count.textContent = `${names.length} siswa`;
+    }
+    ["senin","selasa","rabu","kamis","jumat"].forEach(renderList);
+
+    function showDay(day){
+      document.querySelectorAll('.roster-day').forEach(d=>d.classList.remove('active'));
+      document.getElementById(day).classList.add('active');
+      document.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelector(`.day-btn[data-day="${day}"]`)?.classList.add('active');
+      document.getElementById('dayTitle').textContent = day.charAt(0).toUpperCase() + day.slice(1);
+      currentDay = day;
+    }
+    document.querySelectorAll('.day-btn').forEach(btn=> btn.addEventListener('click', ()=> showDay(btn.dataset.day)));
+
+    const mapJS = {1:"senin",2:"selasa",3:"rabu",4:"kamis",5:"jumat"};
+    let currentDay = mapJS[new Date().getDay()] || "senin";
+    showDay(currentDay);
+
+    // Salin & Cetak
+    document.getElementById('copyBtn').addEventListener('click', ()=>{
+      const names = piket[currentDay] || [];
+      const text = `Jadwal Piket XI F4 - ${currentDay.charAt(0).toUpperCase()+currentDay.slice(1)}\n` + names.map((n,i)=>`${i+1}. ${n}`).join('\n');
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text);
+      else { const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+    });
+    document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+
+    // Progress
+    const progressBar=document.getElementById('progressBar');
+    addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progressBar.style.width=(h>0?(scrollY/h)*100:0)+'%'});
+
+    // Particles monokrom dengan koneksi
+    const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+    function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+    resize();
+    const ps=Array.from({length:90},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,r:Math.random()*2+0.8,a:Math.random()*.5+.2}));
+    (function loop(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(let i=0;i<ps.length;i++){
+        const p=ps[i];
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width)p.vx*=-1;
+        if(p.y<0||p.y>canvas.height)p.vy*=-1;
+        ctx.fillStyle=`rgba(255,255,255,${p.a})`;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+        for(let j=i+1;j<ps.length;j++){
+          const q=ps[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);
+          if(d<140){ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}
+        }
+      }
+      requestAnimationFrame(loop);
+    })();
+    addEventListener('resize',()=>{resize();resizeHero();});
+
+    // Hero waves
+    const hero3d=document.getElementById('hero3d'),hctx=hero3d.getContext('2d');
+    function resizeHero(){hero3d.width=innerWidth;hero3d.height=420}
+    resizeHero();
+    const waves=Array.from({length:5},(_,i)=>({y:i*70,amp:28+i*6,f:.018-i*.002,s:.45+i*.15,ph:Math.random()*6.28}));
+    (function draw(){
+      hctx.clearRect(0,0,hero3d.width,hero3d.height);
+      const t=Date.now()*0.001;
+      waves.forEach((w,i)=>{
+        hctx.beginPath();hctx.moveTo(0,hero3d.height/2+w.y);
+        for(let x=0;x<=hero3d.width;x+=5){
+          const y=hero3d.height/2+w.y+Math.sin(x*w.f+t*w.s+w.ph)*w.amp;
+          hctx.lineTo(x,y);
+        }
+        hctx.strokeStyle=`rgba(255,255,255,${0.4-i*0.06})`;hctx.lineWidth=2;hctx.stroke();
+      });
+      requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>

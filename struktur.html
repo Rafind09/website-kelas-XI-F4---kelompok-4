@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme" content="tema-2">
+  <title>Struktur Kelas - XI F4 SMAN 103 Jakarta</title>
+  <style>
+    /* Tema 2 - Monokrom */
+    :root{
+      --bg:#0d0d0d; --card:#151515; --ink:#f1f1f1; --muted:#b5b5b5; --line:#272727;
+      --g1:#ffffff; --g2:#dcdcdc; --g3:#989898;
+      --radius:18px; --container:1200px; --nav-h:85px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+    img{max-width:100%;display:block}
+
+    /* Progress */
+    .progress-bar{position:fixed;top:var(--nav-h);left:0;height:4px;background:linear-gradient(90deg,#fff,#bbb);width:0;z-index:2999;transition:width .12s;box-shadow:0 0 12px rgba(255,255,255,.25)}
+
+    /* Particles */
+    #particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+
+    /* NAVBAR */
+    nav{
+      position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:3000;
+      background:rgba(10,10,10,.95);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      box-shadow:0 10px 40px rgba(0,0,0,.7);
+    }
+    .nav-content{
+      max-width:var(--container);height:100%;
+      margin:0 auto;padding:0 1.25rem;
+      display:flex;align-items:center;justify-content:flex-start;gap:18px;
+    }
+    .logo{flex:0 0 auto;display:flex;align-items:center}
+    .logo img{height:56px;filter:drop-shadow(0 2px 8px rgba(255,255,255,.18));transition:.25s}
+    .logo:hover img{transform:scale(1.04)}
+    .nav-links{
+      display:flex;align-items:center;gap:.6rem;flex:1 1 auto;
+      overflow-x:auto;scrollbar-width:none;
+    }
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{
+      position:relative;white-space:nowrap;text-decoration:none;color:#fff;
+      font-weight:800;letter-spacing:.3px;font-size:.96rem;
+      padding:.55rem 1.05rem;border-radius:28px;transition:.2s;
+    }
+    .nav-links a::before{
+      content:'';position:absolute;inset:0;border-radius:28px;
+      background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);
+      opacity:0;transition:opacity .2s;
+    }
+    .nav-links a:hover::before{opacity:1}
+    .nav-links a::after{
+      content:'';position:absolute;left:14px;right:14px;bottom:-8px;height:2px;
+      background:linear-gradient(90deg,#ffffff,#bfbfbf);
+      transform:scaleX(0);transform-origin:center;transition:transform .22s ease, opacity .22s ease;opacity:.6;
+    }
+    .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-links a.active::after{transform:scaleX(1);opacity:1}
+
+    /* Hero */
+    .hero{margin-top:var(--nav-h);min-height:420px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:url('images/background.jpg') center/cover;filter:brightness(.35);animation:slowZoom 26s ease-in-out infinite alternate}
+    @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}}
+    .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.6) 60%,var(--bg) 100%);z-index:1}
+    #hero3d{position:absolute;inset:0;z-index:2;opacity:.6;mix-blend-mode:screen;pointer-events:none}
+    .hero-content{position:relative;z-index:3;text-align:center;padding:3rem 1.25rem;animation:fadeUp .9s ease;max-width:900px;width:100%}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .hero h1{
+      font-size:3.1rem;line-height:1.1;font-weight:900;letter-spacing:1.5px;margin-bottom:.6rem;
+      background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      text-shadow:0 4px 20px rgba(255,255,255,.22);
+    }
+    .hero p{font-size:1.08rem;color:rgba(255,255,255,.9)}
+
+    /* Container */
+    .container{max-width:var(--container);margin:3rem auto 4rem;padding:0 1.25rem;position:relative;z-index:10}
+
+    /* Cursor glow */
+    #cursorGlow{
+      position:fixed;left:0;top:0;width:240px;height:240px;pointer-events:none;z-index:5;
+      transform:translate(-50%,-50%) scale(.9);
+      background:radial-gradient(closest-side, rgba(255,255,255,.18), rgba(255,255,255,.08) 40%, rgba(255,255,255,0) 70%);
+      filter:blur(24px);mix-blend-mode:screen;opacity:0;transition:opacity .25s ease, transform .2s ease;
+    }
+    body.glow-on #cursorGlow{opacity:.85}
+
+    /* Wali Kelas (rapi grid) */
+    .wali-kelas{
+      padding:1.6rem;background:var(--card);border-radius:var(--radius);
+      border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.35);
+      position:relative;overflow:hidden;isolation:isolate;
+      opacity:0;transform:translateY(30px) scale(.96);
+    }
+    .wali-kelas::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--g1),var(--g3));opacity:.9}
+    .wali-wrap{
+      display:grid;grid-template-columns:220px 1fr;gap:1.4rem;align-items:center;
+    }
+    .wali-foto{
+      width:200px;height:200px;border-radius:50%;object-fit:cover;
+      border:5px solid rgba(255,255,255,.06);box-shadow:0 10px 28px rgba(0,0,0,.45);margin:0 auto;
+    }
+    .wali-info{display:flex;flex-direction:column;align-items:flex-start;gap:.6rem;padding:.5rem 0}
+    .wali-info h2{color:var(--g1);font-size:1.3rem;letter-spacing:.4px}
+    .wali-info h3{color:#e5e5e5;font-weight:900;font-size:1.15rem}
+    .wali-actions{margin-top:.2rem}
+    .btn-wa{
+      display:inline-flex;align-items:center;gap:.6rem;border:2px solid #e5e5e5;border-radius:14px;padding:.7rem 1rem;
+      color:#e5e5e5;background:transparent;cursor:pointer;text-decoration:none;font-weight:800;letter-spacing:.35px;transition:.25s;
+    }
+    .btn-wa:hover{background:#e5e5e5;color:#000;transform:translateY(-2px)}
+    .btn-wa svg{width:18px;height:18px;display:block}
+
+    @media(max-width:720px){
+      .wali-wrap{grid-template-columns:1fr;text-align:center}
+      .wali-info{align-items:center}
+    }
+
+    /* Grid kartu */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:1.2rem}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}}
+
+    /* Card + glow + popup */
+    .card{
+      background:var(--card);border-radius:var(--radius);padding:1.1rem 1.25rem;text-align:center;border:1px solid var(--line);
+      position:relative;overflow:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s, border-color .28s, opacity .3s;
+      box-shadow:0 14px 40px rgba(0,0,0,.3);opacity:0;transform:translateY(30px) scale(.96);
+      isolation:isolate;will-change:transform,box-shadow;
+    }
+    .card::before{content:'';position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,var(--g1),var(--g3));opacity:.9;z-index:1}
+    .card::after{
+      content:'';position:absolute;inset:-25%;z-index:0;border-radius:30px;
+      background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.16), rgba(255,255,255,0) 60%);
+      filter:blur(30px);opacity:0;transition:opacity .25s ease;
+    }
+    .card:hover::after{opacity:.9}
+    .card h3{color:#fff;margin-bottom:.35rem;font-size:1.12rem;position:relative;z-index:2}
+    .card p{color:#cfcfcf;font-size:.98rem;position:relative;padding-top:.6rem;z-index:2}
+    .card p::before{content:'';position:absolute;left:25%;right:25%;top:0;height:1px;background:rgba(255,255,255,.08)}
+    .card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 22px 70px rgba(0,0,0,.55), 0 0 60px rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+
+    /* Reveal */
+    .reveal{animation:reveal .45s ease forwards}
+    @keyframes reveal{to{opacity:1;transform:translateY(0) scale(1)}}
+  </style>
+</head>
+<body data-theme="tema-2">
+  <div class="progress-bar" id="progressBar"></div>
+  <canvas id="particles"></canvas>
+  <div id="cursorGlow" aria-hidden="true"></div>
+
+  <nav>
+    <div class="nav-content">
+      <div class="logo">
+        <a href="index.html"><img src="images/logo.png" alt="Logo SMAN 103"></a>
+      </div>
+      <div class="nav-links" role="navigation" aria-label="Menu utama">
+        <a href="index.html">Halaman Utama</a>
+        <a href="struktur.html" class="active" aria-current="page">Struktur Kelas</a>
+        <a href="daftar-murid.html">Daftar Murid</a>
+        <a href="denah.html">Denah Kelas</a>
+        <a href="fasilitas.html">Fasilitas</a>
+        <a href="jadwal-mapel.html">Jadwal Mapel</a>
+        <a href="jadwal-piket.html">Jadwal Piket</a>
+        <a href="pj-mapel.html">PJ Mapel</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-fade"></div>
+    <canvas id="hero3d"></canvas>
+    <div class="hero-content">
+      <h1>Struktur Kelas</h1>
+      <p>XI F4 SMAN 103 Jakarta</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="wali-kelas" id="wali">
+      <div class="wali-wrap">
+        <img class="wali-foto" src="images/wali-kelas.jpg" alt="Bu Suryanti">
+        <div class="wali-info">
+          <h2>Wali Kelas</h2>
+          <h3>Bu Suryanti</h3>
+          <div class="wali-actions">
+            <a class="btn-wa" href="https://wa.me/6287881868391" target="_blank" rel="noopener" aria-label="WhatsApp Bu Suryanti">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.5 0 .23 5.27.23 11.8c0 2.08.55 4.11 1.6 5.9L0 24l6.43-1.76a11.73 11.73 0 0 0 5.63 1.44h.01c6.55 0 11.8-5.27 11.8-11.8 0-3.15-1.23-6.11-3.35-8.33zM12.07 21.5h-.01a9.7 9.7 0 0 1-4.94-1.35l-.35-.2-3.82 1.05 1.02-3.72-.23-.38a9.71 9.71 0 0 1-1.48-5.11c0-5.36 4.36-9.72 9.73-9.72 2.6 0 5.04 1.01 6.88 2.85a9.65 9.65 0 0 1 2.85 6.87c0 5.36-4.36 9.71-9.65 9.71zm5.63-7.31c-.31-.16-1.83-.9-2.11-1-.28-.1-.49-.16-.7.16-.2.32-.81 1-.99 1.21-.18.21-.37.24-.68.08-.31-.16-1.31-.48-2.5-1.52-.92-.82-1.54-1.83-1.72-2.14-.18-.31-.02-.48.14-.64.14-.14.31-.37.46-.55.16-.18.2-.31.31-.52.1-.21.05-.39-.02-.55-.07-.16-.7-1.68-.96-2.3-.25-.6-.5-.52-.7-.53l-.6-.01c-.2 0-.52.08-.79.39-.27.32-1.04 1.02-1.04 2.49 0 1.47 1.07 2.89 1.23 3.09.16.21 2.11 3.21 5.1 4.5.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.83-.75 2.09-1.49.26-.73.26-1.36.18-1.49-.08-.13-.28-.21-.59-.37z"/>
+              </svg>
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" id="grid">
+      <div class="card"><h3>Ghaffy</h3><p>Ketua Kelas</p></div>
+      <div class="card"><h3>Felicia Angelica</h3><p>Wakil Ketua</p></div>
+      <div class="card"><h3>Vladya</h3><p>Sekretaris 1</p></div>
+      <div class="card"><h3>Zahratunissa</h3><p>Sekretaris 2</p></div>
+      <div class="card"><h3>Assyfa</h3><p>Bendahara 1</p></div>
+      <div class="card"><h3>Clara</h3><p>Bendahara 2</p></div>
+      <div class="card"><h3>Kemal</h3><p>Keagamaan (Islam)</p></div>
+      <div class="card"><h3>Angeline</h3><p>Keagamaan (Kristen)</p></div>
+      <div class="card"><h3>Rasya</h3><p>Kebersihan 1</p></div>
+      <div class="card"><h3>Athar</h3><p>Kebersihan 2</p></div>
+      <div class="card"><h3>Indra</h3><p>Keamanan 1</p></div>
+      <div class="card"><h3>Hansean</h3><p>Keamanan 2</p></div>
+      <div class="card"><h3>Felix</h3><p>Perlengkapan 1</p></div>
+      <div class="card"><h3>Gadiel</h3><p>Perlengkapan 2</p></div>
+    </section>
+  </main>
+
+  <script>
+    // Scroll progress
+    const progressBar = document.getElementById('progressBar');
+    addEventListener('scroll', ()=>{
+      const h = document.documentElement.scrollHeight - innerHeight;
+      progressBar.style.width = (h>0 ? (scrollY / h) * 100 : 0) + '%';
+    });
+
+    // Particles (monokrom)
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    function resizeParticles(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+    resizeParticles();
+    const particles = Array.from({length:90}, ()=>({
+      x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+      vx:(Math.random()-.5)*.45, vy:(Math.random()-.5)*.45,
+      r: Math.random()*2+0.8, a: Math.random()*.5+.2
+    }));
+    function loopParticles(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(let i=0;i<particles.length;i++){
+        const p=particles[i];
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width) p.vx*=-1;
+        if(p.y<0||p.y>canvas.height) p.vy*=-1;
+        ctx.fillStyle=`rgba(255,255,255,${p.a})`;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+        for(let j=i+1;j<particles.length;j++){
+          const q=particles[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.hypot(dx,dy);
+          if(d<140){ ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=.5; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); }
+        }
+      }
+      requestAnimationFrame(loopParticles);
+    }
+    loopParticles();
+    addEventListener('resize', ()=>{ resizeParticles(); resizeHero(); });
+
+    // Hero waves (monokrom)
+    const hero3d = document.getElementById('hero3d');
+    const hctx = hero3d.getContext('2d');
+    function resizeHero(){ hero3d.width = innerWidth; hero3d.height = 420; }
+    resizeHero();
+    const waves = Array.from({length:5},(_,i)=>({y:i*70,amp:28+i*6,f:.018-i*.002,s:.45+i*.15,ph:Math.random()*6.28}));
+    (function drawWaves(){
+      hctx.clearRect(0,0,hero3d.width,hero3d.height);
+      const t = Date.now()*0.001;
+      waves.forEach((w,i)=>{
+        hctx.beginPath(); hctx.moveTo(0, hero3d.height/2 + w.y);
+        for(let x=0;x<=hero3d.width;x+=5){
+          const y = hero3d.height/2 + w.y + Math.sin(x*w.f + t*w.s + w.ph)*w.amp;
+          hctx.lineTo(x,y);
+        }
+        hctx.strokeStyle = `rgba(255,255,255,${0.4 - i*0.06})`; hctx.lineWidth=2; hctx.stroke();
+      });
+      requestAnimationFrame(drawWaves);
+    })();
+
+    // Reveal on scroll (IO: muncul saat masuk, hilang saat keluar)
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add('reveal');
+        else e.target.classList.remove('reveal');
+      });
+    }, {threshold:.2, rootMargin:'0px 0px -10% 0px'});
+    document.querySelectorAll('.card, .wali-kelas').forEach(el=> io.observe(el));
+
+    // Cursor glow + arahkan glow di dalam kartu
+    const cursorGlow = document.getElementById('cursorGlow');
+    let glowRAF = null, glowX=-9999, glowY=-9999;
+    function moveGlow(){ cursorGlow.style.transform = `translate(${glowX}px,${glowY}px) translate(-50%,-50%) scale(.9)`; glowRAF=null; }
+    document.addEventListener('mousemove', (e)=>{
+      glowX=e.clientX; glowY=e.clientY;
+      if(!glowRAF) glowRAF=requestAnimationFrame(moveGlow);
+      document.querySelectorAll('.card').forEach(card=>{
+        const r=card.getBoundingClientRect();
+        if(e.clientX>=r.left && e.clientX<=r.right && e.clientY>=r.top && e.clientY<=r.bottom){
+          const x=e.clientX-r.left, y=e.clientY-r.top;
+          card.style.setProperty('--mx', `${(x/r.width)*100}%`);
+          card.style.setProperty('--my', `${(y/r.height)*100}%`);
+        }
+      });
+    });
+    const main = document.querySelector('main');
+    main.addEventListener('mouseenter', ()=> document.body.classList.add('glow-on'));
+    main.addEventListener('mouseleave', ()=> document.body.classList.remove('glow-on'));
+  </script>
+</body>
+</html>

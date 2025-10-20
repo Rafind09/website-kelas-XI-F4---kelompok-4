@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme" content="tema-2">
+  <title>Fasilitas - XI F4 SMAN 103 Jakarta</title>
+  <style>
+    :root{--bg:#0d0d0d;--card:#151515;--ink:#f1f1f1;--muted:#b5b5b5;--line:#272727;--g1:#ffffff;--g2:#dcdcdc;--g3:#989898;--radius:18px;--container:1200px;--nav-h:85px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+    .progress-bar{position:fixed;top:var(--nav-h);left:0;height:4px;background:linear-gradient(90deg,#fff,#bbb);width:0;z-index:2999;transition:width .12s;box-shadow:0 0 12px rgba(255,255,255,.25)}
+    #particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+
+    /* NAV */
+    nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:3000;background:rgba(10,10,10,.95);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);box-shadow:0 10px 40px rgba(0,0,0,.7)}
+    .nav-content{max-width:var(--container);height:100%;margin:0 auto;padding:0 1.25rem;display:flex;align-items:center;gap:18px}
+    .logo img{height:56px;filter:drop-shadow(0 2px 8px rgba(255,255,255,.18))}
+    .nav-links{display:flex;align-items:center;gap:.6rem;flex:1;overflow-x:auto;scrollbar-width:none}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{position:relative;white-space:nowrap;text-decoration:none;color:#fff;font-weight:800;letter-spacing:.3px;font-size:.96rem;padding:.55rem 1.05rem;border-radius:28px}
+    .nav-links a::before{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:.2s}
+    .nav-links a:hover::before{opacity:1}
+    .nav-links a::after{content:'';position:absolute;left:14px;right:14px;bottom:-8px;height:2px;background:linear-gradient(90deg,#ffffff,#bfbfbf);transform:scaleX(0);transition:.22s;opacity:.6}
+    .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-links a.active::after{transform:scaleX(1);opacity:1}
+
+    /* HERO */
+    .hero{margin-top:var(--nav-h);min-height:420px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:url('images/background.jpg') center/cover;filter:brightness(.35);animation:slowZoom 26s ease-in-out infinite alternate}
+    @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}}
+    .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.6) 60%,var(--bg) 100%);z-index:1}
+    #hero3d{position:absolute;inset:0;z-index:2;opacity:.6;mix-blend-mode:screen;pointer-events:none}
+    .hero-content{position:relative;z-index:3;text-align:center;padding:3rem 1.25rem;animation:fadeUp .9s ease;max-width:900px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .hero h1{font-size:3.1rem;line-height:1.1;font-weight:900;letter-spacing:1.5px;margin-bottom:.6rem;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 4px 20px rgba(255,255,255,.22)}
+    .hero p{font-size:1.08rem;color:rgba(255,255,255,.9)}
+
+    /* LAYOUT */
+    .container{max-width:var(--container);margin:3rem auto 4rem;padding:0 1.25rem;position:relative;z-index:10}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}}
+
+    /* CARD */
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;
+      position:relative;overflow:hidden;transition:transform .28s, box-shadow .28s, border-color .28s;
+      opacity:0;transform:translateY(30px) scale(.96)
+    }
+    .card::before{content:'';position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,var(--g1),var(--g3));opacity:.9}
+    .card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 22px 70px rgba(0,0,0,.55);border-color:rgba(255,255,255,.18)}
+    .icon{width:52px;height:52px;margin-bottom:.8rem;opacity:.9}
+    .title{font-weight:900;margin-bottom:.35rem}
+    .desc{color:var(--muted);font-size:.98rem}
+    .count-badge{
+      position:absolute;top:.7rem;right:.7rem;background:rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.2);padding:.28rem .6rem;border-radius:999px;
+      font-weight:900;font-size:.85rem;color:#fff
+    }
+    .card.reveal{animation:reveal .45s ease forwards}
+    @keyframes reveal{to{opacity:1;transform:translateY(0) scale(1)}}
+
+    @media(max-width:768px){.hero h1{font-size:2rem}}
+  </style>
+</head>
+<body data-theme="tema-2">
+  <div class="progress-bar" id="progressBar"></div>
+  <canvas id="particles"></canvas>
+
+  <nav>
+    <div class="nav-content">
+      <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Logo SMAN 103"></a></div>
+      <div class="nav-links" role="navigation" aria-label="Menu utama">
+        <a href="index.html">Halaman Utama</a>
+        <a href="struktur.html">Struktur Kelas</a>
+        <a href="daftar-murid.html">Daftar Murid</a>
+        <a href="denah.html">Denah Kelas</a>
+        <a href="fasilitas.html" class="active" aria-current="page">Fasilitas</a>
+        <a href="jadwal-mapel.html">Jadwal Mapel</a>
+        <a href="jadwal-piket.html">Jadwal Piket</a>
+        <a href="pj-mapel.html">PJ Mapel</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-fade"></div>
+    <canvas id="hero3d"></canvas>
+    <div class="hero-content">
+      <h1>Fasilitas Kelas</h1>
+      <p>XI F4 SMAN 103 Jakarta</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <script>
+    // Data fasilitas + jumlah
+    const FAC=[
+      {t:'Papan Tulis', qty:1, d:'Whiteboard utama untuk kegiatan belajar.', i:'M3 6h18v10H3zM12 16v4'},
+      {t:'Kursi', qty:37, d:'Kursi siswa, kondisi layak pakai.', i:'M6 10h12M7 10v6h10v-6M6 18h12'},
+      {t:'Meja', qty:37, d:'Meja siswa, formasi standar.', i:'M3 8h18M6 8v10M18 8v10M3 14h18'},
+      {t:'Projector', qty:1, d:'Proyektor untuk presentasi materi.', i:'M10 3h4l6 6v8a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm4 0v6h6'},
+      {t:'Lemari', qty:1, d:'Lemari penyimpanan peralatan.', i:'M6 4h12v16H6zM12 4v16M10 12h0M14 12h0'},
+      {t:'HDMI', qty:1, d:'Kabel HDMI untuk koneksi display.', i:'M4 12h5l2-2h2l2 2h5v2h-5l-2 2h-2l-2-2H4z'},
+      {t:'Sapu', qty:4, d:'Sapu untuk kebersihan kelas.', i:'M5 20l5-10M10 10l7-7M11 13l6 6'},
+      {t:'Pel', qty:1, d:'Pel lantai dan gagang.', i:'M12 3v12M8 21h8M10 15h4'},
+      {t:'Ember', qty:2, d:'Ember penampung air.', i:'M6 8h12v10H6zM9 8a3 3 0 0 1 6 0'},
+      {t:'Kipas Angin', qty:2, d:'Kipas sirkulasi udara.', i:'M12 6a3 3 0 1 1 0 6a3 3 0 0 1 0-6M12 3v3M21 12h-3M12 21v-3M3 12h3'},
+      {t:'AC', qty:2, d:'Air Conditioner ruangan.', i:'M3 6h18v4H3zm3 10h2m3 0h2m3 0h2M5 10v8m14-8v8'},
+      {t:'Stop Kontak', qty:3, d:'Stop kontak listrik.', i:'M6 4h12v16H6zM10 12h0M14 12h0'}
+    ];
+
+    const grid=document.getElementById('grid');
+    grid.innerHTML=FAC.map(f=>`
+      <article class="card reveal">
+        <span class="count-badge">x${f.qty}</span>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="${f.i}"/>
+        </svg>
+        <div class="title">${f.t}</div>
+        <div class="desc">Jumlah: ${f.qty} • ${f.d}</div>
+      </article>
+    `).join('');
+
+    // Progress
+    const progressBar=document.getElementById('progressBar');
+    addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progressBar.style.width=(h>0?(scrollY/h)*100:0)+'%'});
+
+    // Particles monokrom dengan koneksi
+    const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+    function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+    resize();
+    const ps=Array.from({length:90},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,r:Math.random()*2+0.8,a:Math.random()*.5+.2}));
+    (function loop(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(let i=0;i<ps.length;i++){
+        const p=ps[i];
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width)p.vx*=-1;
+        if(p.y<0||p.y>canvas.height)p.vy*=-1;
+        ctx.fillStyle=`rgba(255,255,255,${p.a})`;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+        for(let j=i+1;j<ps.length;j++){
+          const q=ps[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);
+          if(d<140){ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}
+        }
+      }
+      requestAnimationFrame(loop);
+    })();
+    addEventListener('resize',()=>{resize();resizeHero();});
+
+    // Hero waves
+    const hero3d=document.getElementById('hero3d'),hctx=hero3d.getContext('2d');
+    function resizeHero(){hero3d.width=innerWidth;hero3d.height=420}
+    resizeHero();
+    const waves=Array.from({length:5},(_,i)=>({y:i*70,amp:28+i*6,f:.018-i*.002,s:.45+i*.15,ph:Math.random()*6.28}));
+    (function draw(){
+      hctx.clearRect(0,0,hero3d.width,hero3d.height);
+      const t=Date.now()*0.001;
+      waves.forEach((w,i)=>{
+        hctx.beginPath();hctx.moveTo(0,hero3d.height/2+w.y);
+        for(let x=0;x<=hero3d.width;x+=5){
+          const y=hero3d.height/2+w.y+Math.sin(x*w.f+t*w.s+w.ph)*w.amp;
+          hctx.lineTo(x,y);
+        }
+        hctx.strokeStyle=`rgba(255,255,255,${0.4-i*0.06})`;hctx.lineWidth=2;hctx.stroke();
+      });
+      requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme" content="tema-2">
+  <title>Denah Kelas - XI F4 SMAN 103 Jakarta</title>
+  <style>
+    :root{--bg:#0d0d0d;--card:#151515;--ink:#f1f1f1;--muted:#b5b5b5;--line:#272727;--g1:#ffffff;--g2:#dcdcdc;--g3:#989898;--radius:18px;--container:1200px;--nav-h:85px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+    .progress-bar{position:fixed;top:var(--nav-h);left:0;height:4px;background:linear-gradient(90deg,#fff,#bbb);width:0;z-index:2999;transition:width .12s;box-shadow:0 0 12px rgba(255,255,255,.25)}
+    #particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+
+    /* NAV */
+    nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:3000;background:rgba(10,10,10,.95);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);box-shadow:0 10px 40px rgba(0,0,0,.7)}
+    .nav-content{max-width:var(--container);height:100%;margin:0 auto;padding:0 1.25rem;display:flex;align-items:center;gap:18px}
+    .logo img{height:56px;filter:drop-shadow(0 2px 8px rgba(255,255,255,.18))}
+    .nav-links{display:flex;align-items:center;gap:.6rem;flex:1;overflow-x:auto;scrollbar-width:none}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{position:relative;white-space:nowrap;text-decoration:none;color:#fff;font-weight:800;letter-spacing:.3px;font-size:.96rem;padding:.55rem 1.05rem;border-radius:28px}
+    .nav-links a::before{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:.2s}
+    .nav-links a:hover::before{opacity:1}
+    .nav-links a::after{content:'';position:absolute;left:14px;right:14px;bottom:-8px;height:2px;background:linear-gradient(90deg,#ffffff,#bfbfbf);transform:scaleX(0);transition:.22s;opacity:.6}
+    .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-links a.active::after{transform:scaleX(1);opacity:1}
+
+    /* HERO */
+    .hero{margin-top:var(--nav-h);min-height:420px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:url('images/background.jpg') center/cover;filter:brightness(.35);animation:slowZoom 26s ease-in-out infinite alternate}
+    @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}}
+    .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.6) 60%,var(--bg) 100%);z-index:1}
+    #hero3d{position:absolute;inset:0;z-index:2;opacity:.6;mix-blend-mode:screen;pointer-events:none}
+    .hero-content{position:relative;z-index:3;text-align:center;padding:3rem 1.25rem;animation:fadeUp .9s ease;max-width:900px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .hero h1{font-size:3.1rem;line-height:1.1;font-weight:900;letter-spacing:1.5px;margin-bottom:.6rem;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 4px 20px rgba(255,255,255,.22)}
+    .hero p{font-size:1.08rem;color:rgba(255,255,255,.9)}
+
+    /* CONTENT */
+    .container{max-width:var(--container);margin:3rem auto 4rem;padding:0 1.25rem;position:relative;z-index:10}
+
+    .denah-wrapper{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+      padding:2rem;box-shadow:0 18px 48px rgba(0,0,0,.35);text-align:center
+    }
+    .denah-image{
+      width:100%;max-width:900px;height:auto;border-radius:12px;
+      box-shadow:0 12px 40px rgba(0,0,0,.5);margin-bottom:1.8rem;
+      transition:.3s
+    }
+    .denah-image:hover{transform:scale(1.02);box-shadow:0 18px 60px rgba(0,0,0,.7)}
+
+    .action-btn{
+      display:inline-flex;align-items:center;gap:.6rem;
+      padding:.9rem 2rem;background:#fff;color:#000;text-decoration:none;
+      border-radius:12px;font-weight:900;font-size:1.05rem;letter-spacing:.4px;
+      transition:.25s;box-shadow:0 6px 20px rgba(255,255,255,.15)
+    }
+    .action-btn:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(255,255,255,.25)}
+    .action-btn svg{width:20px;height:20px}
+
+    @media(max-width:768px){
+      .hero h1{font-size:2rem}
+      .denah-wrapper{padding:1.2rem}
+    }
+  </style>
+</head>
+<body data-theme="tema-2">
+  <div class="progress-bar" id="progressBar"></div>
+  <canvas id="particles"></canvas>
+
+  <nav>
+    <div class="nav-content">
+      <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Logo SMAN 103"></a></div>
+      <div class="nav-links" role="navigation" aria-label="Menu utama">
+        <a href="index.html">Halaman Utama</a>
+        <a href="struktur.html">Struktur Kelas</a>
+        <a href="daftar-murid.html">Daftar Murid</a>
+        <a href="denah.html" class="active" aria-current="page">Denah Kelas</a>
+        <a href="fasilitas.html">Fasilitas</a>
+        <a href="jadwal-mapel.html">Jadwal Mapel</a>
+        <a href="jadwal-piket.html">Jadwal Piket</a>
+        <a href="pj-mapel.html">PJ Mapel</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-fade"></div>
+    <canvas id="hero3d"></canvas>
+    <div class="hero-content">
+      <h1>Denah Tempat Duduk</h1>
+      <p>XI F4 SMAN 103 Jakarta</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="denah-wrapper">
+      <img src="images/denah-kelas.jpg" alt="Denah Kelas XI F4" class="denah-image">
+      <a href="daftar-murid.html" class="action-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Lihat Nama Murid
+      </a>
+    </section>
+  </main>
+
+  <script>
+    // Progress
+    const progressBar=document.getElementById('progressBar');
+    addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progressBar.style.width=(h>0?(scrollY/h)*100:0)+'%';});
+
+    // Particles monokrom dengan koneksi
+    const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+    function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+    resize();
+    const ps=Array.from({length:90},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,r:Math.random()*2+0.8,a:Math.random()*.5+.2}));
+    (function loop(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(let i=0;i<ps.length;i++){
+        const p=ps[i];
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width)p.vx*=-1;
+        if(p.y<0||p.y>canvas.height)p.vy*=-1;
+        ctx.fillStyle=`rgba(255,255,255,${p.a})`;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+        for(let j=i+1;j<ps.length;j++){
+          const q=ps[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);
+          if(d<140){ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}
+        }
+      }
+      requestAnimationFrame(loop);
+    })();
+    addEventListener('resize',()=>{resize();resizeHero();});
+
+    // Hero waves
+    const hero3d=document.getElementById('hero3d'),hctx=hero3d.getContext('2d');
+    function resizeHero(){hero3d.width=innerWidth;hero3d.height=420}
+    resizeHero();
+    const waves=Array.from({length:5},(_,i)=>({y:i*70,amp:28+i*6,f:.018-i*.002,s:.45+i*.15,ph:Math.random()*6.28}));
+    (function draw(){
+      hctx.clearRect(0,0,hero3d.width,hero3d.height);
+      const t=Date.now()*0.001;
+      waves.forEach((w,i)=>{
+        hctx.beginPath();hctx.moveTo(0,hero3d.height/2+w.y);
+        for(let x=0;x<=hero3d.width;x+=5){
+          const y=hero3d.height/2+w.y+Math.sin(x*w.f+t*w.s+w.ph)*w.amp;
+          hctx.lineTo(x,y);
+        }
+        hctx.strokeStyle=`rgba(255,255,255,${0.4-i*0.06})`;hctx.lineWidth=2;hctx.stroke();
+      });
+      requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>
