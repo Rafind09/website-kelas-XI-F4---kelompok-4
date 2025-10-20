@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme" content="tema-2">
+  <title>Daftar Murid - XI F4 SMAN 103 Jakarta</title>
+  <style>
+    :root{--bg:#0d0d0d;--card:#151515;--ink:#f1f1f1;--muted:#b5b5b5;--line:#272727;--g1:#ffffff;--g2:#dcdcdc;--g3:#989898;--radius:18px;--container:1200px;--nav-h:85px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+    .progress-bar{position:fixed;top:var(--nav-h);left:0;height:4px;background:linear-gradient(90deg,#fff,#bbb);width:0;z-index:2999;transition:width .12s;box-shadow:0 0 12px rgba(255,255,255,.25)}
+    #particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+    nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:3000;background:rgba(10,10,10,.95);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);box-shadow:0 10px 40px rgba(0,0,0,.7)}
+    .nav-content{max-width:var(--container);height:100%;margin:0 auto;padding:0 1.25rem;display:flex;align-items:center;gap:18px}
+    .logo img{height:56px;filter:drop-shadow(0 2px 8px rgba(255,255,255,.18))}
+    .nav-links{display:flex;align-items:center;gap:.6rem;flex:1;overflow-x:auto;scrollbar-width:none}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{position:relative;white-space:nowrap;text-decoration:none;color:#fff;font-weight:800;letter-spacing:.3px;font-size:.96rem;padding:.55rem 1.05rem;border-radius:28px}
+    .nav-links a::before{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:.2s}
+    .nav-links a:hover::before{opacity:1}
+    .nav-links a::after{content:'';position:absolute;left:14px;right:14px;bottom:-8px;height:2px;background:linear-gradient(90deg,#ffffff,#bfbfbf);transform:scaleX(0);transition:.22s;opacity:.6}
+    .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-links a.active::after{transform:scaleX(1);opacity:1}
+    .hero{margin-top:var(--nav-h);min-height:420px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:url('images/background.jpg') center/cover;filter:brightness(.35);animation:slowZoom 26s ease-in-out infinite alternate}
+    @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}}
+    .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.6) 60%,var(--bg) 100%);z-index:1}
+    #hero3d{position:absolute;inset:0;z-index:2;opacity:.6;mix-blend-mode:screen;pointer-events:none}
+    .hero-content{position:relative;z-index:3;text-align:center;padding:3rem 1.25rem;animation:fadeUp .9s ease;max-width:900px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .hero h1{font-size:3.1rem;line-height:1.1;font-weight:900;letter-spacing:1.5px;margin-bottom:.6rem;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 4px 20px rgba(255,255,255,.22)}
+    .hero p{font-size:1.08rem;color:rgba(255,255,255,.9)}
+    .container{max-width:var(--container);margin:3rem auto 4rem;padding:0 1.25rem;position:relative;z-index:10}
+    .student-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+    @media(max-width:900px){.student-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.student-grid{grid-template-columns:1fr}}
+    .student-card{background:var(--card);border-radius:var(--radius);padding:1.2rem 1.4rem;border:1px solid var(--line);display:flex;align-items:center;gap:1rem;position:relative;overflow:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s, border-color .28s, opacity .3s;box-shadow:0 14px 40px rgba(0,0,0,.3);opacity:0;transform:translateY(30px) scale(.96);isolation:isolate;cursor:pointer}
+    .student-card::before{content:'';position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,var(--g1),var(--g3));opacity:.9;z-index:1}
+    .student-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 22px 70px rgba(0,0,0,.55),0 0 60px rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+    .number{min-width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--g1),var(--g3));color:#000;font-weight:900;font-size:1.05rem;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+    .name{color:#fff;font-size:1.02rem;font-weight:700}
+    .student-card.reveal{animation:reveal .45s ease forwards}
+    @keyframes reveal{to{opacity:1;transform:translateY(0) scale(1)}}
+  </style>
+</head>
+<body data-theme="tema-2">
+  <div class="progress-bar" id="progressBar"></div>
+  <canvas id="particles"></canvas>
+
+  <nav>
+    <div class="nav-content">
+      <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Logo SMAN 103"></a></div>
+      <div class="nav-links" role="navigation" aria-label="Menu utama">
+        <a href="index.html">Halaman Utama</a>
+        <a href="struktur.html">Struktur Kelas</a>
+        <a href="daftar-murid.html" class="active" aria-current="page">Daftar Murid</a>
+        <a href="denah.html">Denah Kelas</a>
+        <a href="fasilitas.html">Fasilitas</a>
+        <a href="jadwal-mapel.html">Jadwal Mapel</a>
+        <a href="jadwal-piket.html">Jadwal Piket</a>
+        <a href="pj-mapel.html">PJ Mapel</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-fade"></div>
+    <canvas id="hero3d"></canvas>
+    <div class="hero-content">
+      <h1>Daftar Murid</h1>
+      <p>XI F4 SMAN 103 Jakarta</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="student-grid" id="studentGrid"></div>
+  </main>
+
+  <script>
+    // Data siswa (tampil semua)
+    const students=[{no:1,name:'Aisha Nazli Amiera'},{no:2,name:'Andra Dwi Hafizh Arrizky'},{no:3,name:'Angeline Cordelia Simarmata'},{no:4,name:'Assyfa Indri Maulani'},{no:5,name:'Athar Pasha Fahrezi'},{no:6,name:'Barry Muhammad Harun'},{no:7,name:'Bona Hasian Hutahaean'},{no:8,name:'Cannigia Callusa Puya A.F'},{no:9,name:'Clara Raulina Panjaitan'},{no:10,name:'Deandra Mauliana Rafiansya'},{no:11,name:'Exaudina Meightamaro T.'},{no:12,name:'Felicia Angelica'},{no:13,name:'Felix Samuel Tobing'},{no:14,name:'Fino Aldiansyah'},{no:15,name:'Gadiel Darius Mario Simbolon'},{no:16,name:'Ghaffy Achmad Dlan P.'},{no:17,name:'Hansean Ola Tobias'},{no:18,name:'Marcello Timoty Toga Torop'},{no:19,name:'Mochamad Tio Surya Adi P.'},{no:20,name:'Mochamad Naufal Ataya'},{no:21,name:'Muhammad Al Fadillah Rasya'},{no:22,name:'Muhammad Daffa'},{no:23,name:'Muhammad Kemal Rifai'},{no:24,name:'Nazri Adiansyah Lubis'},{no:25,name:'Nebula Athala Hazza'},{no:26,name:'Pasha Raditya Hermansyah'},{no:27,name:'Patria Putra Wardana'},{no:28,name:'Rafi Indra Prastya'},{no:29,name:'Raihan Arvan Maulana'},{no:30,name:'Rizky Mahendra'},{no:31,name:'Seraffino Gerrard E. S'},{no:32,name:'Shafana Afiqoh Auni'},{no:33,name:'Syinin Adhia Salwa'},{no:34,name:'Vladya Shakila'},{no:35,name:'Zahratunissa Putri'},{no:36,name:'Zyva Alesha Saadia'}];
+    const grid=document.getElementById('studentGrid');
+    grid.innerHTML=students.map(s=>`<div class="student-card"><div class="number">${s.no}</div><div class="name">${s.name}</div></div>`).join('');
+    // Progress
+    const progressBar=document.getElementById('progressBar');
+    addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;progressBar.style.width=(h>0?(scrollY/h)*100:0)+'%';});
+    // Particles monokrom
+    const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');function resize(){canvas.width=innerWidth;canvas.height=innerHeight}resize();const ps=Array.from({length:90},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,r:Math.random()*2+0.8,a:Math.random()*.5+.2}));(function loop(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=0;i<ps.length;i++){const p=ps[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y<0||p.y>canvas.height)p.vy*=-1;ctx.fillStyle=`rgba(255,255,255,${p.a})`;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();for(let j=i+1;j<ps.length;j++){const q=ps[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);if(d<140){ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}}requestAnimationFrame(loop)})();addEventListener('resize',()=>{resize();resizeHero();});
+    // Hero waves
+    const hero3d=document.getElementById('hero3d'),hctx=hero3d.getContext('2d');function resizeHero(){hero3d.width=innerWidth;hero3d.height=420}resizeHero();const waves=Array.from({length:5},(_,i)=>({y:i*70,amp:28+i*6,f:.018-i*.002,s:.45+i*.15,ph:Math.random()*6.28}));(function draw(){hctx.clearRect(0,0,hero3d.width,hero3d.height);const t=Date.now()*0.001;waves.forEach((w,i)=>{hctx.beginPath();hctx.moveTo(0,hero3d.height/2+w.y);for(let x=0;x<=hero3d.width;x+=5){const y=hero3d.height/2+w.y+Math.sin(x*w.f+t*w.s+w.ph)*w.amp;hctx.lineTo(x,y)}hctx.strokeStyle=`rgba(255,255,255,${0.4-i*0.06})`;hctx.lineWidth=2;hctx.stroke()});requestAnimationFrame(draw)})();
+    // Reveal on scroll
+    let ticking=false;function requestTick(){if(!ticking){requestAnimationFrame(updateInView);ticking=true}};function updateInView(){const th=100;document.querySelectorAll('.student-card').forEach(c=>{const r=c.getBoundingClientRect();const inV=r.top<innerHeight-th&&r.bottom>th;if(inV)c.classList.add('reveal');else c.classList.remove('reveal')});ticking=false}requestTick();addEventListener('scroll',requestTick);
+  </script>
+</body>
+</html>
