@@ -16,6 +16,10 @@
     nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:3000;background:rgba(10,10,10,.95);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);box-shadow:0 10px 40px rgba(0,0,0,.7)}
     .nav-content{max-width:var(--container);height:100%;margin:0 auto;padding:0 1.25rem;display:flex;align-items:center;gap:18px}
     .logo img{height:56px;filter:drop-shadow(0 2px 8px rgba(255,255,255,.18))}
+    /* Fallback jika logo tidak ada */
+    .logo .logo-text{display:none;font-size:1.2rem;font-weight:900;color:#fff;text-decoration:none}
+    .logo img:not([src]),.logo img[src=""]{display:none}
+    .logo:has(img:not([src]))>.logo-text,.logo:has(img[src=""])>.logo-text{display:block}
     .nav-links{display:flex;align-items:center;gap:.6rem;flex:1;overflow-x:auto;scrollbar-width:none}
     .nav-links::-webkit-scrollbar{display:none}
     .nav-links a{position:relative;white-space:nowrap;text-decoration:none;color:#fff;font-weight:800;letter-spacing:.3px;font-size:.96rem;padding:.55rem 1.05rem;border-radius:28px}
@@ -27,7 +31,9 @@
 
     /* HERO */
     .hero{margin-top:var(--nav-h);min-height:420px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:url('images/background.jpg') center/cover;filter:brightness(.35);animation:slowZoom 26s ease-in-out infinite alternate}
+    /* Fallback: gradient jika gambar tidak ada */
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);filter:brightness(.35);animation:slowZoom 26s ease-in-out infinite alternate}
+    .hero-bg[style*="background.jpg"]{background:url('images/background.jpg') center/cover}
     @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}}
     .hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.6) 60%,var(--bg) 100%);z-index:1}
     #hero3d{position:absolute;inset:0;z-index:2;opacity:.6;mix-blend-mode:screen;pointer-events:none}
@@ -85,7 +91,10 @@
 
   <nav>
     <div class="nav-content">
-      <div class="logo"><a href="index.html"><img src="images/logo.png" alt="Logo SMAN 103"></a></div>
+      <div class="logo">
+        <a href="index.html"><img src="images/logo.png" alt="Logo SMAN 103" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"></a>
+        <a href="index.html" class="logo-text">SMAN 103</a>
+      </div>
       <div class="nav-links" role="navigation" aria-label="Menu utama">
         <a href="index.html">Halaman Utama</a>
         <a href="struktur.html">Struktur Kelas</a>
